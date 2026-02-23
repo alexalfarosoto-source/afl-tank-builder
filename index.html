@@ -7,14 +7,14 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Rajdhani:wght@500;700&display=swap" rel="stylesheet">
     <style>
-        :root { --sys-red: #ef4444; --sys-blue: #38bdf8; --sys-gold: #facc15; }
+        :root { --sys-red: #ef4444; --sys-blue: #38bdf8; }
         body { background: #020617; color: white; font-family: 'Rajdhani', sans-serif; }
         .system-font { font-family: 'Orbitron', sans-serif; }
         .glass { background: rgba(15, 23, 42, 0.95); border: 2px solid var(--sys-red); box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); }
         .tab-btn { background: #1e293b; border: 1px solid #334155; font-size: 10px; transition: 0.3s; }
         .tab-active { background: var(--sys-red); color: white; font-weight: bold; box-shadow: 0 0 10px var(--sys-red); }
         .quest-box { border-left: 4px solid var(--sys-red); background: rgba(239, 68, 68, 0.1); padding: 12px; margin-bottom: 10px; }
-        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; line-height: 1; text-shadow: 0 0 15px var(--sys-red); }
+        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; line-height: 1; color: #fff; text-shadow: 0 0 10px var(--sys-red); }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto pb-24">
@@ -31,43 +31,42 @@
     <div class="flex justify-between gap-1 mb-6">
         <button onclick="showTab('timers')" id="t-btn" class="tab-btn flex-1 py-3 rounded-lg tab-active uppercase">Quests</button>
         <button onclick="showTab('schedule')" id="s-btn" class="tab-btn flex-1 py-3 rounded-lg uppercase">4-Week Map</button>
-        <button onclick="showTab('tips')" id="ti-btn" class="tab-btn flex-1 py-3 rounded-lg uppercase">Pro Tips</button>
+        <button onclick="showTab('tips')" id="ti-btn" class="tab-btn flex-1 py-3 rounded-lg uppercase">Beep Mastery</button>
     </div>
 
     <div id="tab-timers" class="block space-y-4">
         
         <div class="glass p-5 rounded-2xl text-center">
-            <h2 class="system-font text-[10px] text-red-400 mb-2 uppercase italic tracking-widest">Monegetti Intervals</h2>
+            <h2 class="system-font text-[10px] text-red-400 mb-2 uppercase italic tracking-widest">Monegetti / Gulden Repeats</h2>
             <div id="int-timer" class="timer-val mb-4">20</div>
-            <p id="int-status" class="text-[12px] text-slate-400 mb-4 uppercase font-bold tracking-widest italic">Ready</p>
+            <p id="int-status" class="text-[12px] text-slate-400 mb-4 uppercase font-bold tracking-widest">Ready</p>
             <div class="flex gap-2">
-                <button id="int-btn" onclick="startIntervals()" class="flex-1 bg-red-600 py-4 rounded-xl font-bold uppercase text-xs">Start Interval</button>
-                <button onclick="location.reload()" class="bg-slate-800 px-4 py-4 rounded-xl font-bold text-xs uppercase">Reset</button>
+                <button onclick="startIntervals()" class="flex-1 bg-red-600 py-4 rounded-xl font-bold uppercase text-xs">Start Interval</button>
+                <button onclick="resetTimer('int')" class="bg-slate-800 px-4 py-4 rounded-xl font-bold text-xs uppercase">Reset</button>
             </div>
-            <p class="text-[9px] text-slate-500 mt-3 italic text-red-400">20s Fast Sprint / 20s Recovery Walk</p>
+            <p class="text-[9px] text-slate-500 mt-3">20s Fast Sprint / 20s Recovery Walk</p>
         </div>
 
         <div class="glass p-5 rounded-2xl text-center border-blue-500/50">
             <h2 class="system-font text-[10px] text-blue-400 mb-2 uppercase italic tracking-widest">Hill Sprint Power</h2>
-            <div id="hill-timer" class="timer-val mb-4 text-blue-400" style="text-shadow: 0 0 10px var(--sys-blue);">0.0</div>
+            <div id="hill-timer" class="timer-val mb-4" style="text-shadow: 0 0 10px var(--sys-blue);">0.0</div>
             <p class="text-[12px] text-slate-400 mb-4 uppercase font-bold">8 Second Burst</p>
-            <button onclick="startHill()" class="w-full bg-blue-600 py-4 rounded-xl font-bold uppercase text-xs italic">Start Hill Burst</button>
+            <button onclick="startHill()" class="w-full bg-blue-600 py-4 rounded-xl font-bold uppercase text-xs">Start Hill Burst</button>
         </div>
 
         <div class="glass p-5 rounded-2xl text-center border-yellow-500/50">
             <h2 class="system-font text-[10px] text-yellow-500 mb-2 uppercase italic tracking-widest">Beep Test Mastery</h2>
-            <div id="beep-lvl" class="timer-val mb-4 text-yellow-500" style="text-shadow: 0 0 10px #facc15;">1.0</div>
+            <div id="beep-lvl" class="timer-val mb-4" style="text-shadow: 0 0 10px #facc15;">1.0</div>
             <button onclick="startBeep()" class="w-full bg-yellow-500 text-black py-4 rounded-xl font-bold uppercase text-xs">Initiate Beep Engine</button>
-            <p class="text-[9px] text-slate-500 mt-3 italic text-yellow-600 underline">WARNING: HIGH VOLUME ALERT</p>
         </div>
     </div>
 
     <div id="tab-schedule" class="hidden">
         <div class="glass p-5 rounded-xl space-y-4">
-            <h3 class="system-font text-red-500 text-xs text-center border-b border-red-900 pb-2 italic">THE TANK ARISE TIMELINE</h3>
-            <div class="text-[12px] space-y-3 leading-relaxed">
+            <h3 class="system-font text-red-500 text-xs text-center border-b border-red-900 pb-2">THE TANK ARISE TIMELINE</h3>
+            <div class="text-[12px] space-y-3">
                 <p><b class="text-red-500">WEEK 1:</b> 1x Beep Test + 2x Hill Sprint sessions.</p>
-                <p><b class="text-yellow-500">WEEK 2:</b> 2x Monegetti Intervals + 1x Hill session.</p>
+                <p><b class="text-yellow-500">WEEK 2:</b> 2x Monegetti Repeats + 1x Hill session.</p>
                 <p><b class="text-blue-500">WEEK 3:</b> 2x Beep Test (Target: Level Up) + 1x Monegetti.</p>
                 <p><b class="text-green-500">WEEK 4:</b> Freshness Week. Light jogs. Tank is full.</p>
             </div>
@@ -79,10 +78,6 @@
             <h3 class="font-bold text-yellow-500 text-xs mb-1 uppercase">BEEP TEST PRO TIPS</h3>
             <p class="text-[11px] text-slate-400 leading-relaxed">• <b>Nose Breathe:</b> Save energy in levels 1-5.<br>• <b>Snap Pivot:</b> Don't loop. Plant, turn, and explode off the line.<br>• <b>Stay Calm:</b> High heart rate makes you huff. Keep shoulders loose.</p>
         </div>
-        <div class="bg-slate-900 p-4 rounded-xl border-l-4 border-blue-500">
-            <h3 class="font-bold text-blue-500 text-xs mb-1 uppercase italic">HILL SPRINT GUIDE</h3>
-            <p class="text-[11px] text-slate-400 italic">"Sprint UP the grass hill for 8s. Walk back down VERY slowly. The walk is when your Mana refills. Do 6-8 reps."</p>
-        </div>
     </div>
 
     <script>
@@ -93,66 +88,67 @@
             document.getElementById(tab[0]+(tab==='tips'?'i':'')+'-btn').classList.add('tab-active');
         }
 
-        function beep(freq, dur, vol) {
-            const context = new (window.AudioContext || window.webkitAudioContext)();
-            const osc = context.createOscillator();
-            const gain = context.createGain();
-            osc.connect(gain);
-            gain.connect(context.destination);
-            osc.frequency.value = freq;
-            gain.gain.value = vol || 1; 
-            osc.start();
-            setTimeout(() => osc.stop(), dur);
-        }
-
-        // BEEP TEST ENGINE
+        // BEEP TEST LOGIC WITH LOUD ALERT
         function startBeep() {
             let lvl = 1.0;
             const display = document.getElementById('beep-lvl');
-            alert("BEEP TEST ENGAGED. PREPARE FOR BURST.");
+            alert("BEEP TEST ENGAGED. VOLUME UP.");
             
             setInterval(() => {
                 lvl += 0.1;
                 display.innerText = lvl.toFixed(1);
-                // LOUD BEEP
-                beep(900, 600, 1.0);
+                // Trigger loud beep sound
+                const context = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = context.createOscillator();
+                const gain = context.createGain();
+                osc.connect(gain);
+                gain.connect(context.destination);
+                gain.gain.value = 1.0; // MAX LOUD
+                osc.frequency.value = 800;
+                osc.start();
+                setTimeout(() => osc.stop(), 500);
             }, 9000); 
         }
 
-        // MONEGETTI LOGIC
+        // INTERVALS LOGIC
+        let intRunning = false;
         function startIntervals() {
+            if(intRunning) return;
+            intRunning = true;
             let timeLeft = 20; let mode = 'WORK';
             const display = document.getElementById('int-timer');
             const status = document.getElementById('int-status');
-            document.getElementById('int-btn').disabled = true;
             
-            setInterval(() => {
-                timeLeft--;
-                display.innerText = timeLeft;
+            const timer = setInterval(() => {
+                timeLeft--; display.innerText = timeLeft;
                 if(timeLeft <= 0) {
                     mode = (mode === 'WORK' ? 'REST' : 'WORK');
                     timeLeft = 20;
                     status.innerText = (mode === 'WORK' ? 'FAST SPRINT!' : 'RECOVERY WALK');
                     status.style.color = (mode === 'WORK' ? '#ef4444' : '#38bdf8');
-                    beep(600, 300, 0.5);
+                    // Notification beep
+                    const context = new AudioContext();
+                    const osc = context.createOscillator();
+                    osc.connect(context.destination);
+                    osc.start(); setTimeout(() => osc.stop(), 200);
                 }
             }, 1000);
         }
 
-        // HILL SPRINT LOGIC
+        // HILL LOGIC
         function startHill() {
             let timeLeft = 0;
             const display = document.getElementById('hill-timer');
             const timer = setInterval(() => {
-                timeLeft += 0.1;
-                display.innerText = timeLeft.toFixed(1);
+                timeLeft += 0.1; display.innerText = timeLeft.toFixed(1);
                 if(timeLeft >= 8.0) { 
                     clearInterval(timer); 
-                    beep(400, 800, 0.8);
                     alert("BURST COMPLETE! WALK DOWN."); 
                 }
             }, 100);
         }
+
+        function resetTimer(type) { location.reload(); }
     </script>
 </body>
 </html>
