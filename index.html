@@ -13,116 +13,142 @@
         .glass { background: rgba(15, 23, 42, 0.95); border: 2px solid var(--sys-red); box-shadow: 0 0 20px rgba(239, 68, 68, 0.2); }
         .tab-btn { background: #1e293b; border: 1px solid #334155; font-size: 10px; transition: 0.3s; }
         .tab-active { background: var(--sys-red); color: white; font-weight: bold; box-shadow: 0 0 10px var(--sys-red); }
-        .quest-box { border-left: 4px solid var(--sys-red); background: rgba(239, 68, 68, 0.05); padding: 12px; margin-bottom: 10px; border-radius: 0 8px 8px 0; }
-        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 3rem; line-height: 1; }
+        .quest-box { border-left: 4px solid var(--sys-red); background: rgba(239, 68, 68, 0.1); padding: 12px; margin-bottom: 10px; }
+        .timer-val { font-family: 'Orbitron', sans-serif; font-size: 3.5rem; line-height: 1; color: #fff; text-shadow: 0 0 10px var(--sys-red); }
     </style>
 </head>
 <body class="p-4 max-w-md mx-auto pb-24">
 
     <div class="mb-6 pt-2">
-        <div class="quest-box border-red-500 bg-red-950/20">
-            <h1 class="system-font text-red-500 text-[10px] tracking-widest uppercase mb-1">System Quest: Mana Expansion</h1>
+        <div class="quest-box border-red-500">
+            <h1 class="system-font text-red-500 text-[10px] tracking-widest uppercase mb-1">STAMINA QUEST: TANK ARISE</h1>
             <p class="text-[11px] text-slate-300 italic uppercase leading-tight">
-                "Hunter, your speed is S-Rank, but your tank is small. To become the King of the Midfield, you must build your aerobic engine. If you fail to complete the map, your stats will remain capped."
+                "Hunter, your lungs are your armor. Every sprint completed without stopping increases your Mana Pool. Do not let the tank run dry."
             </p>
         </div>
     </div>
 
     <div class="flex justify-between gap-1 mb-6">
-        <button onclick="showTab('schedule')" id="s-btn" class="tab-btn flex-1 py-3 rounded-lg tab-active uppercase">4-Week Map</button>
-        <button onclick="showTab('timers')" id="t-btn" class="tab-btn flex-1 py-3 rounded-lg uppercase">Quest Timers</button>
-        <button onclick="showTab('tips')" id="ti-btn" class="tab-btn flex-1 py-3 rounded-lg uppercase">Pro Tips</button>
+        <button onclick="showTab('timers')" id="t-btn" class="tab-btn flex-1 py-3 rounded-lg tab-active uppercase">Quests</button>
+        <button onclick="showTab('schedule')" id="s-btn" class="tab-btn flex-1 py-3 rounded-lg uppercase">4-Week Map</button>
+        <button onclick="showTab('tips')" id="ti-btn" class="tab-btn flex-1 py-3 rounded-lg uppercase">Beep Mastery</button>
     </div>
 
-    <div id="tab-schedule" class="block space-y-3">
-        <div class="glass p-4 rounded-xl">
-            <h3 class="system-font text-red-400 text-xs text-center mb-4 italic">30 DAYS TO SEASON START</h3>
-            <div class="space-y-4 text-xs">
-                <div class="border-b border-slate-800 pb-2">
-                    <p class="text-red-500 font-bold uppercase">Week 1: Foundations</p>
-                    <p class="text-slate-400">• 1x Beep Test (Find your limit)<br>• 2x Hill Sprint Quests</p>
-                </div>
-                <div class="border-b border-slate-800 pb-2">
-                    <p class="text-yellow-500 font-bold uppercase">Week 2: The Secret Interval</p>
-                    <p class="text-slate-400">• 2x Monegetti Intervals (20s On/Off)<br>• Skill Work: 50x Gulden Kicks</p>
-                </div>
-                <div class="border-b border-slate-800 pb-2">
-                    <p class="text-blue-500 font-bold uppercase">Week 3: Peak Mana</p>
-                    <p class="text-slate-400">• 2x Beep Test (Beat Week 1 by 2 shuttles)<br>• 1x Monegetti Interval</p>
-                </div>
-                <div>
-                    <p class="text-green-500 font-bold uppercase">Week 4: Fresh King</p>
-                    <p class="text-slate-400">• Light skills only. Taper down.<br>• Tank is full. Ready for Game 1.</p>
-                </div>
+    <div id="tab-timers" class="block space-y-4">
+        
+        <div class="glass p-5 rounded-2xl text-center">
+            <h2 class="system-font text-[10px] text-red-400 mb-2 uppercase italic tracking-widest">Monegetti / Gulden Repeats</h2>
+            <div id="int-timer" class="timer-val mb-4">20</div>
+            <p id="int-status" class="text-[12px] text-slate-400 mb-4 uppercase font-bold tracking-widest">Ready</p>
+            <div class="flex gap-2">
+                <button onclick="startIntervals()" class="flex-1 bg-red-600 py-4 rounded-xl font-bold uppercase text-xs">Start Interval</button>
+                <button onclick="resetTimer('int')" class="bg-slate-800 px-4 py-4 rounded-xl font-bold text-xs uppercase">Reset</button>
+            </div>
+            <p class="text-[9px] text-slate-500 mt-3">20s Fast Sprint / 20s Recovery Walk</p>
+        </div>
+
+        <div class="glass p-5 rounded-2xl text-center border-blue-500/50">
+            <h2 class="system-font text-[10px] text-blue-400 mb-2 uppercase italic tracking-widest">Hill Sprint Power</h2>
+            <div id="hill-timer" class="timer-val mb-4" style="text-shadow: 0 0 10px var(--sys-blue);">0.0</div>
+            <p class="text-[12px] text-slate-400 mb-4 uppercase font-bold">8 Second Burst</p>
+            <button onclick="startHill()" class="w-full bg-blue-600 py-4 rounded-xl font-bold uppercase text-xs">Start Hill Burst</button>
+        </div>
+
+        <div class="glass p-5 rounded-2xl text-center border-yellow-500/50">
+            <h2 class="system-font text-[10px] text-yellow-500 mb-2 uppercase italic tracking-widest">Beep Test Mastery</h2>
+            <div id="beep-lvl" class="timer-val mb-4" style="text-shadow: 0 0 10px #facc15;">1.0</div>
+            <button onclick="startBeep()" class="w-full bg-yellow-500 text-black py-4 rounded-xl font-bold uppercase text-xs">Initiate Beep Engine</button>
+        </div>
+    </div>
+
+    <div id="tab-schedule" class="hidden">
+        <div class="glass p-5 rounded-xl space-y-4">
+            <h3 class="system-font text-red-500 text-xs text-center border-b border-red-900 pb-2">THE TANK ARISE TIMELINE</h3>
+            <div class="text-[12px] space-y-3">
+                <p><b class="text-red-500">WEEK 1:</b> 1x Beep Test + 2x Hill Sprint sessions.</p>
+                <p><b class="text-yellow-500">WEEK 2:</b> 2x Monegetti Repeats + 1x Hill session.</p>
+                <p><b class="text-blue-500">WEEK 3:</b> 2x Beep Test (Target: Level Up) + 1x Monegetti.</p>
+                <p><b class="text-green-500">WEEK 4:</b> Freshness Week. Light jogs. Tank is full.</p>
             </div>
         </div>
     </div>
 
-    <div id="tab-timers" class="hidden space-y-4">
-        <div class="glass p-5 rounded-2xl text-center">
-            <h2 class="system-font text-[10px] text-red-400 mb-2 uppercase italic">Monegetti Interval (20s Run / 20s Walk)</h2>
-            <div id="int-timer" class="timer-val text-white mb-4">20</div>
-            <p id="int-status" class="text-[10px] text-slate-500 mb-4 uppercase font-bold tracking-widest">Idle</p>
-            <button onclick="startIntervals()" class="w-full bg-red-600 py-4 rounded-xl font-bold uppercase text-sm">Activate Interval</button>
-        </div>
-
-        <div class="glass p-5 rounded-2xl text-center border-blue-500/50">
-            <h2 class="system-font text-[10px] text-blue-400 mb-2 uppercase italic">Hill Sprint Burst (8s Limit)</h2>
-            <div id="hill-timer" class="timer-val text-white mb-4">0.0</div>
-            <button onclick="startHill()" class="w-full bg-blue-600 py-4 rounded-xl font-bold uppercase text-sm">Start Hill Quest</button>
-        </div>
-    </div>
-
     <div id="tab-tips" class="hidden space-y-4">
-        <div class="bg-slate-900/50 p-4 rounded-xl border-l-4 border-red-500">
-            <h3 class="font-bold text-red-500 text-xs mb-2 italic">THE INTERVAL SECRET</h3>
-            <p class="text-[11px] text-slate-400 italic">"Don't jog. Sprint like you're chasing the ball for 20s, then walk for 20s. This tricks your heart into recovering twice as fast."</p>
-        </div>
-        <div class="bg-slate-900/50 p-4 rounded-xl border-l-4 border-yellow-500">
-            <h3 class="font-bold text-yellow-500 text-xs mb-2 italic">BEEP TEST PRO TIPS</h3>
-            <ul class="text-[11px] text-slate-400 space-y-1">
-                <li>• Level 1-4: Breathe only through your NOSE.</li>
-                <li>• The Pivot: One foot on the line, snap turn 180°.</li>
-                <li>• Save Mana: Don't sprint to the line. Just get there in time.</li>
-            </ul>
-        </div>
-        <div class="bg-slate-900/50 p-4 rounded-xl border-l-4 border-blue-400">
-            <h3 class="font-bold text-blue-400 text-xs mb-2 italic">HILL SPRINT GUIDE</h3>
-            <p class="text-[11px] text-slate-400 italic">"Sprint UP the grass hill for 8s. Walk back down VERY slowly. The walk is when your Mana refills. Do 6-8 reps."</p>
+        <div class="bg-slate-900 p-4 rounded-xl border-l-4 border-yellow-500">
+            <h3 class="font-bold text-yellow-500 text-xs mb-1 uppercase">BEEP TEST PRO TIPS</h3>
+            <p class="text-[11px] text-slate-400 leading-relaxed">• <b>Nose Breathe:</b> Save energy in levels 1-5.<br>• <b>Snap Pivot:</b> Don't loop. Plant, turn, and explode off the line.<br>• <b>Stay Calm:</b> High heart rate makes you huff. Keep shoulders loose.</p>
         </div>
     </div>
 
     <script>
         function showTab(tab) {
-            ['schedule', 'timers', 'tips'].forEach(t => document.getElementById('tab-'+t).classList.add('hidden'));
+            ['timers', 'schedule', 'tips'].forEach(t => document.getElementById('tab-'+t).classList.add('hidden'));
             document.getElementById('tab-'+tab).classList.remove('hidden');
-            ['s','t','ti'].forEach(b => document.getElementById(b+'-btn').classList.remove('tab-active'));
+            ['t','s','ti'].forEach(b => document.getElementById(b+'-btn').classList.remove('tab-active'));
             document.getElementById(tab[0]+(tab==='tips'?'i':'')+'-btn').classList.add('tab-active');
         }
 
+        // BEEP TEST LOGIC WITH LOUD ALERT
+        function startBeep() {
+            let lvl = 1.0;
+            const display = document.getElementById('beep-lvl');
+            alert("BEEP TEST ENGAGED. VOLUME UP.");
+            
+            setInterval(() => {
+                lvl += 0.1;
+                display.innerText = lvl.toFixed(1);
+                // Trigger loud beep sound
+                const context = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = context.createOscillator();
+                const gain = context.createGain();
+                osc.connect(gain);
+                gain.connect(context.destination);
+                gain.gain.value = 1.0; // MAX LOUD
+                osc.frequency.value = 800;
+                osc.start();
+                setTimeout(() => osc.stop(), 500);
+            }, 9000); 
+        }
+
+        // INTERVALS LOGIC
+        let intRunning = false;
         function startIntervals() {
+            if(intRunning) return;
+            intRunning = true;
             let timeLeft = 20; let mode = 'WORK';
             const display = document.getElementById('int-timer');
             const status = document.getElementById('int-status');
-            setInterval(() => {
+            
+            const timer = setInterval(() => {
                 timeLeft--; display.innerText = timeLeft;
                 if(timeLeft <= 0) {
                     mode = (mode === 'WORK' ? 'REST' : 'WORK');
                     timeLeft = 20;
-                    status.innerText = (mode === 'WORK' ? 'FAST RUN!' : 'WALK / RECOVER');
+                    status.innerText = (mode === 'WORK' ? 'FAST SPRINT!' : 'RECOVERY WALK');
                     status.style.color = (mode === 'WORK' ? '#ef4444' : '#38bdf8');
+                    // Notification beep
+                    const context = new AudioContext();
+                    const osc = context.createOscillator();
+                    osc.connect(context.destination);
+                    osc.start(); setTimeout(() => osc.stop(), 200);
                 }
             }, 1000);
         }
 
+        // HILL LOGIC
         function startHill() {
             let timeLeft = 0;
             const display = document.getElementById('hill-timer');
             const timer = setInterval(() => {
                 timeLeft += 0.1; display.innerText = timeLeft.toFixed(1);
-                if(timeLeft >= 8.0) { clearInterval(timer); alert("BURST COMPLETE! WALK DOWN."); }
+                if(timeLeft >= 8.0) { 
+                    clearInterval(timer); 
+                    alert("BURST COMPLETE! WALK DOWN."); 
+                }
             }, 100);
         }
+
+        function resetTimer(type) { location.reload(); }
     </script>
 </body>
 </html>
